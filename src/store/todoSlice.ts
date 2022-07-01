@@ -26,10 +26,13 @@ const todoSlice = createSlice({
 				content: action.payload,
 				isDone: false,
 			};
-			state.todos?.push(newTodo);
+			state.todos.push(newTodo);
 		},
 		removeTodo: (state: TodoState, action: PayloadAction<TodoId>) => {
-			state?.todos.filter((el: TodoType) => el.id !== action.payload);
+			const newTodos = state.todos?.filter(
+				(el: TodoType) => el.id !== action.payload,
+			);
+			state.todos = newTodos;
 		},
 		toggleTodo: (state: TodoState, action: PayloadAction<TodoId>) => {
 			const targetTodo = state.todos?.find(
