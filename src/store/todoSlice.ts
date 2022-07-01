@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
 import { TodoType, TodoState } from '../types';
 
 const initialTodoState = {
@@ -14,19 +14,29 @@ const initialTodoState = {
 type TodoId = string;
 type TodoContent = string;
 
-let id = 5;
+const getNewId = () => {
+	const newId = new Date().getTime().toString() + Math.floor(Math.random() * 1000);
+	return newId;
+};
 
 const todoSlice = createSlice({
 	name: 'todos',
 	initialState: initialTodoState,
 	reducers: {
-		addTodo: (state: TodoState, action: PayloadAction<TodoContent>) => {
-			const newTodo = {
-				id: '5',
-				content: action.payload,
-				isDone: false,
-			};
-			state.todos.push(newTodo);
+		addTodo: {
+			reducer: (state: TodoState, action: PayloadAction<TodoType>) => {
+				state.todos.push(action.payload);
+			},
+			prepare: (content: string) => {
+				return {
+					payload: {
+						// id: nanoid(),
+						id: getNewId(),
+						content: content,
+						isDone: false,
+					},
+				};
+			},
 		},
 		removeTodo: (state: TodoState, action: PayloadAction<TodoId>) => {
 			const newTodos = state.todos?.filter(
