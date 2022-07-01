@@ -7,12 +7,17 @@ type Props = {
 };
 
 const Todo = ({ idx, todo }: Props) => {
-	const { content, isDone } = todo;
+	const { id, content, isDone } = todo;
 	return (
 		<>
-			{idx}
-			{content}
-			{isDone ? <div>done</div> : <div>not done</div>}
+			<div>{idx}</div>
+			<div>{content}</div>
+			<div id={id} className="isDone">
+				{isDone ? 'done' : 'not done'}
+			</div>
+			<button id={id} className="btnDelete">
+				delete
+			</button>
 		</>
 	);
 };
