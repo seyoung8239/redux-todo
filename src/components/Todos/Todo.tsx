@@ -22,4 +22,4 @@ const Todo = ({ idx, todo }: Props) => {
 	);
 };
 
-export default Todo;
+export default React.memo(Todo);
