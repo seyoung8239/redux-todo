@@ -10,7 +10,7 @@ const TodoList = () => {
 	/* 
 		연습을 위해 Event Delegation형태로 구현헸다. 
 		React는 내부적으로 Event Delegation을 사용하므로 
-		굳이 이렇게 짤 필요 없다.
+		굳이 이렇게 짤 필요는 없다.
 	*/
 	const handleTodoListClick: React.MouseEventHandler<
 		HTMLInputElement

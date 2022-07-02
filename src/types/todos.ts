@@ -6,4 +6,6 @@ export interface TodoType {
 
 export interface TodoState {
 	todos: TodoType[];
+	status: 'idle' | 'loading' | 'succeeded' | 'failed';
+	error: string | null;
 }

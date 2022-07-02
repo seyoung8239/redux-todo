@@ -1,23 +1,31 @@
-import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
-import { TodoType, TodoState } from '../types';
+import {
+	createAsyncThunk,
+	createSlice,
+	nanoid,
+	PayloadAction,
+} from '@reduxjs/toolkit';
+import { TodoType, TodoState } from '../types/todos';
 
 const initialTodoState = {
-	todos: [
-		{ id: '0', content: 'meet yena', isDone: false },
-		{ id: '1', content: 'meet yena', isDone: false },
-		{ id: '2', content: 'meet yena', isDone: false },
-		{ id: '3', content: 'meet yena', isDone: false },
-		{ id: '4', content: 'meet yena', isDone: false },
-	],
+	todos: [{ id: '0', content: 'add your own todo!', isDone: false }],
+	status: 'idle',
+	error: null,
 } as TodoState;
 
 type TodoId = string;
-type TodoContent = string;
 
 const getNewId = () => {
-	const newId = new Date().getTime().toString() + Math.floor(Math.random() * 1000);
+	const newId =
+		new Date().getTime().toString() + Math.floor(Math.random() * 1000);
 	return newId;
 };
+
+export const fetchTodos = createAsyncThunk('todos/fetchTodos', async () => {
+	console.log('adsf');
+	fetch('mock/todos');
+	const res = await fetch('mock/todos');
+	return res.json();
+});
 
 const todoSlice = createSlice({
 	name: 'todos',
@@ -52,6 +60,23 @@ const todoSlice = createSlice({
 				targetTodo.isDone = !targetTodo.isDone;
 			}
 		},
+	},
+	/* 
+		fetch 부분만 더미서버와 연동되어 처리
+	*/
+	extraReducers(builder) {
+		builder
+			.addCase(fetchTodos.pending, state => {
+				state.status = 'loading';
+			})
+			.addCase(fetchTodos.fulfilled, (state, action) => {
+				state.status = 'succeeded';
+				state.todos = action.payload;
+			})
+			.addCase(fetchTodos.rejected, (state, action) => {
+				state.status = 'failed';
+				state.error = action.error.message as string;
+			});
 	},
 });
 
