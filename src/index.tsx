@@ -4,6 +4,9 @@ import { Provider } from 'react-redux';
 import { store } from './store';
 import App from './App';
 
+import { worker } from './api/mockApi';
+worker.start();
+
 const container = document.getElementById('root')!;
 const root = createRoot(container);
 
